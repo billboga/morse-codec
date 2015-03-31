@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{12F276B7-43B3-44AB-87FA-60DFC2F25BA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorseCodec.Tests", "tests\MorseCodec.Tests\MorseCodec.Tests.csproj", "{D0F01756-4803-4FF6-B889-D7D4274EAFC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorseCodec", "src\MorseCodec\MorseCodec.csproj", "{3240E228-2B5B-4EDB-87A2-74C190AC1C9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0F01756-4803-4FF6-B889-D7D4274EAFC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0F01756-4803-4FF6-B889-D7D4274EAFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0F01756-4803-4FF6-B889-D7D4274EAFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0F01756-4803-4FF6-B889-D7D4274EAFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3240E228-2B5B-4EDB-87A2-74C190AC1C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3240E228-2B5B-4EDB-87A2-74C190AC1C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3240E228-2B5B-4EDB-87A2-74C190AC1C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3240E228-2B5B-4EDB-87A2-74C190AC1C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D0F01756-4803-4FF6-B889-D7D4274EAFC6} = {12F276B7-43B3-44AB-87FA-60DFC2F25BA7}
+	EndGlobalSection
+EndGlobal

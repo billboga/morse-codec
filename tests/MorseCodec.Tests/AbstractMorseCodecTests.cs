@@ -28,14 +28,15 @@ namespace MorseCodec.Tests
 
             [Theory,
             InlineData("... ..- .-.", "abc"),
-            InlineData("...      ..-      .-.", "a b c"),
-            InlineData("... ..- .-.      ... ..- .-.", "abc abc"),
+            InlineData("...       ..-       .-.", "a b c"),
+            InlineData("... ..- .-.       ... ..- .-.", "abc abc"),
             InlineData("...", "a"),
             InlineData("... ", "a"),
             InlineData("...  ", "a"),
             InlineData("...   ", "a"),
             InlineData("...    ", "a"),
-            InlineData("...     ", "a")]
+            InlineData("...     ", "a"),
+            InlineData("...      ", "a")]
             public void Should_property_decode_message(string message, string expectedDecodedMessage)
             {
                 var @return = sut.Decode(message);
@@ -56,8 +57,8 @@ namespace MorseCodec.Tests
 
             [Theory,
             InlineData("abc", "... ..- .-."),
-            InlineData("a b c", "...      ..-      .-."),
-            InlineData("abc abc", "... ..- .-.      ... ..- .-.")]
+            InlineData("a b c", "...       ..-       .-."),
+            InlineData("abc abc", "... ..- .-.       ... ..- .-.")]
             public void Should_properly_encode_message(string message, string expectedEncodedMessage)
             {
                 var @return = sut.Encode(message);

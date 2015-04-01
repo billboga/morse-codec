@@ -33,7 +33,7 @@ namespace MorseCodec
             }
 
             var formattedMessage = message
-                .Replace(new string(CharacterSeparator, 6), " <space> ");
+                .Replace(new string(CharacterSeparator, 7), " <space> ");
 
             var decodedMessage = "";
 
@@ -76,8 +76,8 @@ namespace MorseCodec
                 if (character == CharacterSeparator)
                 {
                     var iterationCount = encodedMessage.Last() == CharacterSeparator
-                        ? 5
-                        : 6;
+                        ? 6
+                        : 7;
 
                     encodedMessage += new string(CharacterSeparator, iterationCount);
                 }

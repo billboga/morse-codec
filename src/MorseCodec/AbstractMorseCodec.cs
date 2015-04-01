@@ -14,9 +14,44 @@ namespace MorseCodec
 
         public abstract IDictionary<char, string> CharacterMap { get; }
 
-        public virtual string Decode(string message)
+        public virtual string Decode(
+            string message,
+            bool ignoreInvalidCharacters = true)
         {
-            throw new NotImplementedException();
+            if (!ignoreInvalidCharacters)
+            {
+                if (message
+                    .Select(x =>
+                        x == CharacterSeparator ||
+                        x == DitCharacter ||
+                        x == DahCharacter)
+                    .Where(x => x == false)
+                    .Count() > 0)
+                {
+                    throw new FormatException("message contains invalid characters");
+                }
+            }
+
+            var formattedMessage = message
+                .Replace(new string(CharacterSeparator, 6), " <space> ");
+
+            var decodedMessage = "";
+
+            foreach (var block in formattedMessage.Split(CharacterSeparator))
+            {
+                var decodedCharacter = CharacterMap.FirstOrDefault(x => x.Value == block);
+
+                if (block == "<space>")
+                {
+                    decodedMessage += CharacterSeparator;
+                }
+                else if (!decodedCharacter.Equals(default(KeyValuePair<char, string>)))
+                {
+                    decodedMessage += decodedCharacter.Key;
+                }
+            }
+
+            return decodedMessage.Trim();
         }
 
         public virtual string Encode(
@@ -34,17 +69,17 @@ namespace MorseCodec
                 }
             }
 
-            var decodedMessage = "";
+            var encodedMessage = "";
 
             foreach (var character in message)
             {
                 if (character == CharacterSeparator)
                 {
-                    var iterationCount = decodedMessage.Last() == CharacterSeparator
+                    var iterationCount = encodedMessage.Last() == CharacterSeparator
                         ? 5
                         : 6;
 
-                    decodedMessage += new string(CharacterSeparator, iterationCount);
+                    encodedMessage += new string(CharacterSeparator, iterationCount);
                 }
                 else
                 {
@@ -52,12 +87,12 @@ namespace MorseCodec
 
                     if (!encodedCharacter.Equals(default(KeyValuePair<char, string>)))
                     {
-                        decodedMessage += encodedCharacter.Value + CharacterSeparator;
+                        encodedMessage += encodedCharacter.Value + CharacterSeparator;
                     }
                 }
             }
 
-            return decodedMessage.Trim();
+            return encodedMessage.Trim();
         }
     }
 }

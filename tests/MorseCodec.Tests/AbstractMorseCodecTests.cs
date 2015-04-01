@@ -16,7 +16,35 @@ namespace MorseCodec.Tests
 
         private readonly TestAbstractMorseCode sut;
 
-        public class Encoder : AbstractMorseCodecTests
+        public class Decode : AbstractMorseCodecTests
+        {
+            [Fact]
+            public void Should_throw_exception_if_message_contains_invalid_character()
+            {
+                Assert.Throws<FormatException>(() => sut.Decode(
+                    message: "abc",
+                    ignoreInvalidCharacters: false));
+            }
+
+            [Theory,
+            InlineData("... ..- .-.", "abc"),
+            InlineData("...      ..-      .-.", "a b c"),
+            InlineData("... ..- .-.      ... ..- .-.", "abc abc"),
+            InlineData("...", "a"),
+            InlineData("... ", "a"),
+            InlineData("...  ", "a"),
+            InlineData("...   ", "a"),
+            InlineData("...    ", "a"),
+            InlineData("...     ", "a")]
+            public void Should_property_decode_message(string message, string expectedDecodedMessage)
+            {
+                var @return = sut.Decode(message);
+
+                Assert.Equal(expectedDecodedMessage, @return);
+            }
+        }
+
+        public class Encode : AbstractMorseCodecTests
         {
             [Fact]
             public void Should_throw_exception_if_message_contains_invalid_character()

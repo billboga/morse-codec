@@ -9,7 +9,7 @@ namespace MorseCodec
         char DahCharacter { get; }
         IDictionary<char, string> CharacterMap { get; }
 
-        string Decode(string message);
+        string Decode(string message, bool ignoreInvalidCharacters);
         string Encode(string message, bool ignoreInvalidCharacters);
     }
 }

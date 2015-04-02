@@ -7,7 +7,7 @@ namespace MorseCodec
         char CharacterSeparator { get; }
         char DitCharacter { get; }
         char DahCharacter { get; }
-        IDictionary<char, string> CharacterMap { get; }
+        IDictionary<string, string> CharacterMap { get; }
 
         string Decode(string message, bool ignoreInvalidCharacters);
         string Encode(string message, bool ignoreInvalidCharacters);

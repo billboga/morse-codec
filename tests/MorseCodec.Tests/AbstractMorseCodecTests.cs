@@ -58,7 +58,9 @@ namespace MorseCodec.Tests
             [Theory,
             InlineData("abc", "... ..- .-."),
             InlineData("a b c", "...       ..-       .-."),
-            InlineData("abc abc", "... ..- .-.       ... ..- .-.")]
+            InlineData("abc abc", "... ..- .-.       ... ..- .-."),
+            InlineData("<abc> <abc>", ".....-.-.       .....-.-."),
+            InlineData("<abc> a b", ".....-.-.       ...       ..-")]
             public void Should_properly_encode_message(string message, string expectedEncodedMessage)
             {
                 var @return = sut.Encode(message);
@@ -69,11 +71,12 @@ namespace MorseCodec.Tests
 
         private class TestAbstractMorseCode : AbstractMorseCodec
         {
-            private IDictionary<char, string> characterMap = new Dictionary<char, string>()
+            private IDictionary<string, string> characterMap = new Dictionary<string, string>()
             {
-                { 'a', "..." },
-                { 'b', "..-" },
-                { 'c', ".-." },
+                { "a", "..." },
+                { "b", "..-" },
+                { "c", ".-." },
+                { "<abc>", ".....-.-." }
             };
 
             public override char CharacterSeparator
@@ -91,7 +94,7 @@ namespace MorseCodec.Tests
                 get { return '-'; }
             }
 
-            public override IDictionary<char, string> CharacterMap
+            public override IDictionary<string, string> CharacterMap
             {
                 get { return characterMap; }
             }

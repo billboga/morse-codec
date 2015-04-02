@@ -12,7 +12,7 @@ namespace MorseCodec
 
         public abstract char DahCharacter { get; }
 
-        public abstract IDictionary<char, string> CharacterMap { get; }
+        public abstract IDictionary<string, string> CharacterMap { get; }
 
         public virtual string Decode(
             string message,
@@ -61,7 +61,7 @@ namespace MorseCodec
             if (!ignoreInvalidCharacters)
             {
                 if (message
-                    .Select(x => CharacterMap.ContainsKey(x))
+                    .Select(x => CharacterMap.ContainsKey(x.ToString()))
                     .Where(x => x == false)
                     .Count() > 0)
                 {
@@ -70,6 +70,8 @@ namespace MorseCodec
             }
 
             var encodedMessage = "";
+            var isProsign = false;
+            var prosign = string.Empty;
 
             foreach (var character in message)
             {
@@ -81,9 +83,35 @@ namespace MorseCodec
 
                     encodedMessage += new string(CharacterSeparator, iterationCount);
                 }
+                else if (character == '<')
+                {
+                    isProsign = true;
+                    prosign = character.ToString();
+
+                    continue;
+                }
                 else
                 {
-                    var encodedCharacter = CharacterMap.FirstOrDefault(x => x.Key == character);
+                    KeyValuePair<string, string> encodedCharacter;
+
+                    if (isProsign && character != '>')
+                    {
+                        prosign += character.ToString();
+
+                        continue;
+                    }
+                    else if (isProsign && character == '>')
+                    {
+                        prosign += character.ToString();
+
+                        encodedCharacter = CharacterMap.FirstOrDefault(x => x.Key == prosign);
+
+                        isProsign = false;
+                    }
+                    else
+                    {
+                        encodedCharacter = CharacterMap.FirstOrDefault(x => x.Key == character.ToString());
+                    }
 
                     if (!encodedCharacter.Equals(default(KeyValuePair<char, string>)))
                     {

@@ -122,5 +122,66 @@ namespace MorseCodec
 
             return encodedMessage.Trim();
         }
+
+        public void PlaybackMessage(
+            string message,
+            Action onEvent,
+            Action offEvent,
+            int ditDuration = 50)
+        {
+            var formattedMessage = message
+                .Replace(new string(CharacterSeparator, 7), " <space> ");
+            var eventList = new Queue<Action>();
+
+            foreach (var block in formattedMessage.Split(CharacterSeparator))
+            {
+                if (block == "<space>")
+                {
+                    eventList.Enqueue(null);
+                    eventList.Enqueue(null);
+                    eventList.Enqueue(null);
+                    eventList.Enqueue(null);
+                }
+                else
+                {
+                    foreach (var character in block)
+                    {
+                        eventList.Enqueue(onEvent);
+
+                        if (character == DahCharacter)
+                        {
+                            eventList.Enqueue(null);
+                            eventList.Enqueue(null);
+                        }
+
+                        eventList.Enqueue(offEvent);
+                    }
+
+                    eventList.Enqueue(null);
+                    eventList.Enqueue(null);
+                }
+            }
+
+            var timer = new System.Timers.Timer(ditDuration);
+
+            timer.Elapsed += (source, eventArguments) =>
+            {
+                if (eventList.Count() == 0)
+                {
+                    timer.Stop();
+                }
+                else
+                {
+                    var currentEvent = eventList.Dequeue();
+
+                    if (currentEvent != null)
+                    {
+                        currentEvent();
+                    }
+                }
+            };
+
+            timer.Start();
+        }
     }
 }
